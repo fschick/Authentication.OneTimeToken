@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="6.0.10" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FS.Authentication.OneTimeToken.Abstractions\FS.Authentication.OneTimeToken.Abstractions.csproj" />
+    <ProjectReference Include="..\FS.Authentication.OneTimeToken\FS.Authentication.OneTimeToken.csproj" />
+  </ItemGroup>
+
+</Project>

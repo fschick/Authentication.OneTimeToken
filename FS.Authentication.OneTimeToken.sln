@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{F360
 		Build\targets\xml_documentation.props = Build\targets\xml_documentation.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Authentication.OneTimeToken.Demo", "FS.Authentication.OneTimeToken.Demo\FS.Authentication.OneTimeToken.Demo.csproj", "{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
