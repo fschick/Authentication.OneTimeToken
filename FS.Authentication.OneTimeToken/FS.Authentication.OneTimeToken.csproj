@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Build/targets/net_core.props" />
+  <Import Project="../Build/targets/nuget.props" />
+  <Import Project="../Build/targets/version.props" />
+  <Import Project="../Build/targets/xml_documentation.props" />
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FS.Authentication.OneTimeToken.Abstractions\FS.Authentication.OneTimeToken.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

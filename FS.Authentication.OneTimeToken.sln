@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Authentication.OneTimeToken.Abstractions", "FS.Authentication.OneTimeToken.Abstractions\FS.Authentication.OneTimeToken.Abstractions.csproj", "{DE91E591-4C74-42EB-8CFA-6FE6BBA93588}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Authentication.OneTimeToken", "FS.Authentication.OneTimeToken\FS.Authentication.OneTimeToken.csproj", "{C70A4DF2-8FDE-4AA3-A579-2BA421650B5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Authentication.OneTimeToken.Tests", "FS.Authentication.OneTimeToken.Tests\FS.Authentication.OneTimeToken.Tests.csproj", "{D3504224-8B7D-4654-BA81-0F12D61793E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C1B5AEF4-C9C2-415C-92A4-C5DABA38B0E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{F360E756-A282-4C4C-A956-716F58504E2D}"
+	ProjectSection(SolutionItems) = preProject
+		Build\targets\net_core.props = Build\targets\net_core.props
+		Build\targets\net_standard.props = Build\targets\net_standard.props
+		Build\targets\nuget.props = Build\targets\nuget.props
+		Build\targets\version.props = Build\targets\version.props
+		Build\targets\xml_documentation.props = Build\targets\xml_documentation.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE91E591-4C74-42EB-8CFA-6FE6BBA93588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE91E591-4C74-42EB-8CFA-6FE6BBA93588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE91E591-4C74-42EB-8CFA-6FE6BBA93588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE91E591-4C74-42EB-8CFA-6FE6BBA93588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70A4DF2-8FDE-4AA3-A579-2BA421650B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70A4DF2-8FDE-4AA3-A579-2BA421650B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70A4DF2-8FDE-4AA3-A579-2BA421650B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70A4DF2-8FDE-4AA3-A579-2BA421650B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3504224-8B7D-4654-BA81-0F12D61793E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F360E756-A282-4C4C-A956-716F58504E2D} = {C1B5AEF4-C9C2-415C-92A4-C5DABA38B0E2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01E5F078-7B93-460D-B662-998E1CEEDC64}
+	EndGlobalSection
+EndGlobal
