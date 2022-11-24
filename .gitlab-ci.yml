@@ -1,0 +1,79 @@
+stages:
+  - build
+  - test
+  - deploy
+
+workflow:
+  rules:
+    # If merge request exists: Run as (detached) merge request pipeline (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+    # Never run normal pipeline when merge request exists / never run both (- if: $CI_OPEN_MERGE_REQUESTS)
+    # Otherwise: Run as normal pipeline (- when: always)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - when: always
+
+build:
+  stage: build
+  interruptible: true
+  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
+  tags: [ linux, docker ]
+  script:
+    - Build/scripts/authentication_onetime_token.build.ps1
+  rules:
+      # If merge request exists: Run as (detached) merge request pipeline (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+      # If tag is pushed: Run as normal pipeline (- if: $CI_COMMIT_TAG)
+      # On unprotected branch: Enable manual start of normal pipeline (- if: $CI_COMMIT_REF_PROTECTED == "false")
+      # Otherwise run always (merge / fast forward / ...) (- when: always)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_REF_PROTECTED == "false"
+      when: manual
+    - when: always
+
+test:
+  stage: test
+  needs: []
+  interruptible: true
+  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
+  tags: [ linux, docker ]
+  script:
+    - Build/scripts/authentication_onetime_token.test.ps1
+  rules:
+    # If merge request exists: Don't allow to fail (- if: $CI_PIPELINE_SOURCE == "merge_request_event")
+    # If tag is pushed: Run as normal pipeline (- if: $CI_COMMIT_TAG)
+    # On unprotected branch: Allow fail (- if: $CI_COMMIT_REF_PROTECTED == "false")
+    # Else: Don't allow to fail (default)
+    # On unprotected branch: Enable manual start (- if: $CI_COMMIT_REF_PROTECTED == "false")
+    # Otherwise run always (merge / fast forward / ...) (- when: always)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      allow_failure: false
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
+    - if: $CI_COMMIT_REF_PROTECTED == "false"
+      allow_failure: false
+      when: manual
+    - when: always
+  artifacts:
+    name: "test-results"
+    paths:
+      - ./**/TestResults/*.trx
+      - ./**/TestResults/*.html
+    expire_in: 1 week
+    when: always
+
+deploy_nuget:
+  stage: deploy
+  interruptible: true
+  image: srv-docker-1:5000/schicksoftware/dotnet6.0-jre17-nodejs16.0:latest
+  tags: [ linux, docker ]
+  script:
+    - Build/scripts/authentication_onetime_token.publish.ps1 -version "$env:CI_COMMIT_REF_NAME" -publshFolder "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME" -nugetUrl "https://nuget.home.f-schick.de" -apiKey "$env:NUGET_PRIVATE_API_KEY"
+  rules:
+    # Run only when version-tag is pushed (- if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/)
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+.*$/
+  artifacts:
+    name: "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME-linux-x64"
+    paths:
+      - "$env:CI_PROJECT_NAME-$env:CI_COMMIT_REF_NAME"
+    expire_in: 1 month

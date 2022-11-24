@@ -1,0 +1,46 @@
+name: Publish NuGet Packages
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build
+      shell: pwsh
+      run: Build/scripts/authentication_onetime_token.build.ps1
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Test
+      shell: pwsh
+      run: Build/scripts/authentication_onetime_token.test.ps1
+
+  publish:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Pack
+      shell: pwsh
+      run: Build/scripts/authentication_onetime_token.publish.ps1 -version ${{github.ref_name}} -publshFolder Schick.Authentication.OneTimeToken-${{github.ref_name}} -nugetUrl "https://api.nuget.org/v3/index.json" -apiKey ${{ secrets.NUGET_API_KEY }}
