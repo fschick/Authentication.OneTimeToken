@@ -1,7 +1,6 @@
 using FS.Authentication.OneTimeToken.Abstractions.Interfaces;
 using FS.Authentication.OneTimeToken.Abstractions.Models;
 using FS.Authentication.OneTimeToken.Extensions;
-using FS.Authentication.OneTimeToken.Models;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -41,8 +40,7 @@ public class Program
         builder.Services.AddAuthorization();
 
         // Add one-time access token authentication.
-        builder.Services.Configure<OneTimeTokenOptions>(config => { /* your options here */ });
-        builder.Services.AddOneTimeTokenAuthentication();
+        builder.Services.AddOneTimeTokenAuthentication(config => { /* your options here */ });
 
         AddSwagger(builder);
 
