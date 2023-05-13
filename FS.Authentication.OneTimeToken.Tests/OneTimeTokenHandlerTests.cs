@@ -168,6 +168,23 @@ public class OneTimeTokenHandlerTests
     }
 
     [TestMethod]
+    public async Task RequiredAuthenticationMethod_ReturnCustomNameIdentifier()
+    {
+        // Prepare
+        using var autoFake = CreateAutoFake(o => o.NameIdentifier = "Some custom identifier");
+        var httpClient = autoFake.Resolve<HttpClient>();
+        var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
+
+        // Act
+        var token = oneTimeTokenService.CreateToken();
+        var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.GetCurrentUserClaims), token));
+        var returnValue = await response.Content.ReadAsStringAsync();
+
+        // Check
+        returnValue.Should().Contain(@"""http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"",""value"":""Some custom identifier""");
+    }
+
+    [TestMethod]
     public async Task RequiredRoleMethod_SucceedsWithValidTokenAndRole()
     {
         // Prepare
@@ -208,7 +225,6 @@ public class OneTimeTokenHandlerTests
         // Prepare
         using var autoFake = CreateAutoFake();
         var httpClient = autoFake.Resolve<HttpClient>();
-        var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
         var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.RequireRole), "INVALID TOKEN"));

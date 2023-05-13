@@ -20,6 +20,11 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Models
         public const string AuthorizationHeaderName = "Authorization";
 
         /// <summary>
+        /// Default value for 'OneTimeTokenOptions.AuthorizationHeaderName'.
+        /// </summary>
+        public const string NameIdentifier = "One time access token";
+
+        /// <summary>
         /// Default value for 'OneTimeTokenOptions.AuthorizationHeaderPrefix'.
         /// </summary>
         public const string AuthorizationHeaderPrefix = "OneTime";

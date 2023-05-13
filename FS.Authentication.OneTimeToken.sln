@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{F360
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Authentication.OneTimeToken.Demo", "FS.Authentication.OneTimeToken.Demo\FS.Authentication.OneTimeToken.Demo.csproj", "{0FAAB1B3-0414-46B5-9983-2F6DB37AC647}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5A884B5D-27C3-4960-AE28-803D7D522FE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{D3504224-8B7D-4654-BA81-0F12D61793E1} = {5A884B5D-27C3-4960-AE28-803D7D522FE0}
 		{F360E756-A282-4C4C-A956-716F58504E2D} = {C1B5AEF4-C9C2-415C-92A4-C5DABA38B0E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

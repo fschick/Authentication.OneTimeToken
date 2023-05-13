@@ -50,9 +50,10 @@ public class OneTimeTokenHandler : AuthenticationHandler<OneTimeTokenOptions>
         if (!tokenValidationResult.IsValid)
             return Task.FromResult(AuthenticateResult.NoResult());
 
-        var nameClaim = new Claim(ClaimTypes.Name, "One time access token");
+        var nameClaim = new Claim(ClaimTypes.Name, OptionsMonitor.CurrentValue.NameIdentifier);
+        var nameIdentifierClaim = new Claim(ClaimTypes.NameIdentifier, OptionsMonitor.CurrentValue.NameIdentifier);
         var roleClaims = tokenValidationResult.Roles.Select(role => new Claim(ClaimTypes.Role, role));
-        var claims = new[] { nameClaim }.Concat(roleClaims).ToList();
+        var claims = new[] { nameClaim, nameIdentifierClaim }.Concat(roleClaims).ToList();
         var identity = new ClaimsIdentity(claims, Scheme.Name);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, Scheme.Name);
