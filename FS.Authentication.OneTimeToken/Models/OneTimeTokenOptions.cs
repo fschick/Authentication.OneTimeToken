@@ -17,7 +17,7 @@ public class OneTimeTokenOptions : AuthenticationSchemeOptions
     /// <summary>
     /// The name identifier used to build the claims principal. Default is 'One time access token'.
     /// </summary>
-    public string NameIdentifier { get; set; } = OneTimeTokenDefaults.AuthorizationHeaderName;
+    public string NameIdentifier { get; set; } = OneTimeTokenDefaults.NameIdentifier;
 
     /// <summary>
     /// The prefix used to identify a one-time access token in the authentication header value. Default is 'OneTimeToken'.

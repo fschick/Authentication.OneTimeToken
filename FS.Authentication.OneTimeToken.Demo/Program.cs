@@ -9,17 +9,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
+using System.Security.Claims;
 
 namespace FS.Authentication.OneTimeToken.Demo;
 
 public class Program
 {
-    public const string DEFAULT_ROLE = "DefaultUser";
+    public const string DEFAULT_ROLE = "DefaultRole";
 
     // Authenticate / authorize via default authentication, e.g. NTLM/Windows, JWT, ...
     [Authorize]
     internal static string GetOneTimeToken(HttpContext httpContext, [FromQuery][DefaultValue(DEFAULT_ROLE)][SwaggerParameter(Required = false)] string role)
-        => httpContext.RequestServices.GetRequiredService<IOneTimeTokenService>().CreateToken(role);
+        => httpContext.RequestServices.GetRequiredService<IOneTimeTokenService>().CreateToken(new Claim(ClaimTypes.Role, role));
 
     // Authenticate via one-time access token.
     [Authorize(AuthenticationSchemes = OneTimeTokenDefaults.AuthenticationScheme)]

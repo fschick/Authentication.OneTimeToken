@@ -2,8 +2,9 @@
 Provides an authentication scheme for one-time access tokens to support file download via direct link for protected resources
 ## Frameworks supported
 - ASP.NET Core 6.0
+- ASP.NET Core 7.0
 ## Demo
-A demo applikation can be found in folder `FS.Authentication.OneTimeToken.Demo`
+A demo application can be found in folder `FS.Authentication.OneTimeToken.Demo`
 ## Installation
 Install from NuGet package
 ```powershell
@@ -27,7 +28,7 @@ builder.Services.AddOneTimeTokenAuthentication(config => { /* your options here 
 ```
 Tokens can be generated via `IOneTimeTokenService.CreateToken`
 ```c#
-<serviceProvider>.GetRequiredService<IOneTimeTokenService>().CreateToken(/* required roles */);
+<serviceProvider>.GetRequiredService<IOneTimeTokenService>().CreateToken(/* claims */);
 ```
 ## Full Sample
 ```c#

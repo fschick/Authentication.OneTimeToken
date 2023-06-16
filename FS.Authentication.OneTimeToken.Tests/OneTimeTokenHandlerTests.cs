@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FS.Authentication.OneTimeToken.Tests;
@@ -193,7 +194,7 @@ public class OneTimeTokenHandlerTests
         var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
-        var token = oneTimeTokenService.CreateToken(TestWebApplication.DEFAULT_ROLE);
+        var token = oneTimeTokenService.CreateToken(TestWebApplication.DefaultRoleClaim);
         var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.RequireRole), token));
         var returnValue = await response.Content.ReadAsStringAsync();
 
@@ -212,7 +213,7 @@ public class OneTimeTokenHandlerTests
         var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
-        var token = oneTimeTokenService.CreateToken("INVALID ROLE");
+        var token = oneTimeTokenService.CreateToken(new Claim(ClaimTypes.Role, "INVALID ROLE"));
         var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.RequireRole), token));
 
         // Check
@@ -248,7 +249,7 @@ public class OneTimeTokenHandlerTests
     }
 
     [TestMethod]
-    public async Task WhenRolesSetToNull_TokenCanBeAuthenticated()
+    public async Task WhenClaimsSetToNull_TokenCanBeAuthenticated()
     {
         // Prepare
         using var autoFake = CreateAutoFake();
@@ -256,7 +257,7 @@ public class OneTimeTokenHandlerTests
         var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
-        var token = oneTimeTokenService.CreateToken((string[])null);
+        var token = oneTimeTokenService.CreateToken((Claim[])null);
         var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.RequireAuthentication), token));
 
         // Check
@@ -264,7 +265,7 @@ public class OneTimeTokenHandlerTests
     }
 
     [TestMethod]
-    public async Task WhenRoleIsNullNull_TokenCanBeAuthenticated()
+    public async Task WhenClaimIsNullNull_TokenCanBeAuthenticated()
     {
         // Prepare
         using var autoFake = CreateAutoFake();
@@ -272,7 +273,7 @@ public class OneTimeTokenHandlerTests
         var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
-        var token = oneTimeTokenService.CreateToken(new string[] { null });
+        var token = oneTimeTokenService.CreateToken(new Claim[] { null });
         var response = await httpClient.GetAsync(WithToken(nameof(TestWebApplication.RequireAuthentication), token));
 
         // Check

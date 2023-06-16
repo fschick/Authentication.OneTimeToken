@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace FS.Authentication.OneTimeToken.Abstractions.Models
 {
@@ -15,20 +16,20 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Models
         public bool IsValid { get; private set; }
 
         /// <summary>
-        /// The roles the token belongs to.
+        /// Claims added to authentication result.
         /// </summary>
-        public string[] Roles { get; private set; }
+        public Claim[] Claims { get; private set; }
 
         /// <summary>
         /// Indicates an authorized access.
         /// </summary>
-        public static TokenValidationResult Success(string[] roles)
+        public static TokenValidationResult Success(Claim[] claims)
             => new TokenValidationResult()
             {
                 IsValid = true,
-                Roles = roles?
-                    .Where(role => !string.IsNullOrEmpty(role)).ToArray()
-                    ?? Array.Empty<string>()
+                Claims = claims?
+                    .Where(claim => claim != null).ToArray()
+                    ?? Array.Empty<Claim>()
             };
 
         /// <summary>

@@ -14,6 +14,7 @@ public class TestWebApplication
 {
     public const string DEFAULT_RESULT = "Authenticated";
     public const string DEFAULT_ROLE = "SomeRole";
+    public static readonly Claim DefaultRoleClaim = new(ClaimTypes.Role, DEFAULT_ROLE);
 
     public static void Main(string[] args)
     {

@@ -1,5 +1,6 @@
 ﻿using FS.Authentication.OneTimeToken.Abstractions.Models;
 using System;
+using System.Security.Claims;
 
 namespace FS.Authentication.OneTimeToken.Abstractions.Interfaces
 {
@@ -12,20 +13,51 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Interfaces
         /// <summary>
         /// Creates a one-time token.
         /// </summary>
+        string CreateToken();
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
+        /// <param name="expiresIn">Token lifetime.</param>
+        string CreateToken(TimeSpan expiresIn);
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
         /// <param name="roles">Comma delimited list of roles that are allowed to access the resource.</param>
+        [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
         string CreateToken(params string[] roles);
 
         /// <summary>
         /// Creates a one-time token.
         /// </summary>
-        /// <param name="expiresIn">The expires in.</param>
+        /// <param name="expiresIn">Token lifetime.</param>
         /// <param name="roles">Comma delimited list of roles that are allowed to access the resource.</param>
+        [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
         string CreateToken(TimeSpan? expiresIn = null, params string[] roles);
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
+        /// <param name="claims">Claims added to authentication result.</param>
+        string CreateToken(params Claim[] claims);
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
+        /// <param name="expiresIn">The expires in.</param>
+        /// <param name="claims">Claims added to authentication result.</param>
+        string CreateToken(TimeSpan? expiresIn = null, params Claim[] claims);
 
         /// <summary>
         /// Validates the token.
         /// </summary>
         /// <param name="token">The token.</param>
         TokenValidationResult ValidateToken(string token);
+    }
+
+    internal class Messages
+    {
+        internal const string CREATE_TOKEN_WITH_CLAIMS = "Use CreateToken with claims. Claim of type 'Role' can be crated with new Claim(ClaimTypes.Role, \"role-name\").";
     }
 }

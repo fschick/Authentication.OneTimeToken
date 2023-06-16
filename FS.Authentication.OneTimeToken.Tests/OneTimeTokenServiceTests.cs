@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FS.Authentication.OneTimeToken.Tests;
@@ -63,19 +64,19 @@ public class OneTimeTokenServiceTests
     }
 
     [TestMethod]
-    public void WhenTokenIsValidated_RolesAreReturned()
+    public void WhenTokenIsValidated_ClaimsAreReturned()
     {
         // Prepare
         using var autoFake = CreateAutoFake();
         var oneTimeTokenService = autoFake.Resolve<IOneTimeTokenService>();
 
         // Act
-        var roles = new[] { "RoleA", "RoleB" };
-        var token = oneTimeTokenService.CreateToken(roles);
+        var claims = new[] { new Claim(ClaimTypes.Role, "RoleA ROLE"), new Claim(ClaimTypes.Role, "RoleB") };
+        var token = oneTimeTokenService.CreateToken(claims);
         var validationResult = oneTimeTokenService.ValidateToken(token);
 
         // Check
-        validationResult.Roles.Should().BeEquivalentTo(roles);
+        validationResult.Claims.Should().BeEquivalentTo(claims);
     }
 
     [TestMethod]

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace FS.Authentication.OneTimeToken.Services;
 
@@ -42,15 +43,33 @@ public class OneTimeTokenService : IOneTimeTokenService
         if (now > oneTimeToken.Expires)
             return TokenValidationResult.Failed();
 
-        return TokenValidationResult.Success(oneTimeToken.Roles);
+        return TokenValidationResult.Success(oneTimeToken.Claims);
     }
 
     /// <inheritdoc />
+    public string CreateToken()
+        => CreateToken(null, (Claim[])null);
+
+    /// <inheritdoc />
+    public string CreateToken(TimeSpan expiresIn)
+        => CreateToken(expiresIn, (Claim[])null);
+
+    /// <inheritdoc />
+    [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
     public string CreateToken(params string[] roles)
         => CreateToken(null, roles);
 
     /// <inheritdoc />
+    [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
     public string CreateToken(TimeSpan? expiresIn = null, params string[] roles)
+        => CreateToken(null, roles.Select(role => new Claim(ClaimTypes.Role, role)).ToArray());
+
+    /// <inheritdoc />
+    public string CreateToken(params Claim[] claims)
+        => CreateToken(null, claims);
+
+    /// <inheritdoc />
+    public string CreateToken(TimeSpan? expiresIn = null, params Claim[] claims)
     {
         RemoveExpiredTokens();
 
@@ -64,7 +83,7 @@ public class OneTimeTokenService : IOneTimeTokenService
             ? now.Add(expiresTimeSpan)
             : DateTime.MaxValue;
 
-        var token = new Token { Key = Guid.NewGuid().ToString(), Expires = expiresUtc, Roles = roles };
+        var token = new Token { Key = Guid.NewGuid().ToString(), Expires = expiresUtc, Claims = claims };
         _tokens.TryAdd(token.Key, token);
         return token.Key;
     }
@@ -81,6 +100,6 @@ public class OneTimeTokenService : IOneTimeTokenService
     {
         public string Key { get; init; }
         public DateTime Expires { get; init; }
-        public string[] Roles { get; set; }
+        public Claim[] Claims { get; set; }
     }
 }
