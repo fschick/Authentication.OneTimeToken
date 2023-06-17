@@ -1,5 +1,6 @@
 ﻿using FS.Authentication.OneTimeToken.Abstractions.Models;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace FS.Authentication.OneTimeToken.Abstractions.Interfaces
@@ -24,6 +25,25 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Interfaces
         /// <summary>
         /// Creates a one-time token.
         /// </summary>
+        /// <param name="claims">Claims added to authentication result.</param>
+        string CreateToken(IEnumerable<Claim> claims);
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
+        /// <param name="expiresIn">The expires in.</param>
+        /// <param name="claims">Claims added to authentication result.</param>
+        string CreateToken(TimeSpan expiresIn, IEnumerable<Claim> claims);
+
+        /// <inheritdoc cref="CreateToken(IEnumerable{Claim})" />
+        string CreateToken(params Claim[] claims);
+
+        /// <inheritdoc cref="CreateToken(TimeSpan, IEnumerable{Claim})" />
+        string CreateToken(TimeSpan expiresIn, params Claim[] claims);
+
+        /// <summary>
+        /// Creates a one-time token.
+        /// </summary>
         /// <param name="roles">Comma delimited list of roles that are allowed to access the resource.</param>
         [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
         string CreateToken(params string[] roles);
@@ -34,20 +54,7 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Interfaces
         /// <param name="expiresIn">Token lifetime.</param>
         /// <param name="roles">Comma delimited list of roles that are allowed to access the resource.</param>
         [Obsolete(Messages.CREATE_TOKEN_WITH_CLAIMS)]
-        string CreateToken(TimeSpan? expiresIn = null, params string[] roles);
-
-        /// <summary>
-        /// Creates a one-time token.
-        /// </summary>
-        /// <param name="claims">Claims added to authentication result.</param>
-        string CreateToken(params Claim[] claims);
-
-        /// <summary>
-        /// Creates a one-time token.
-        /// </summary>
-        /// <param name="expiresIn">The expires in.</param>
-        /// <param name="claims">Claims added to authentication result.</param>
-        string CreateToken(TimeSpan? expiresIn = null, params Claim[] claims);
+        string CreateToken(TimeSpan expiresIn, params string[] roles);
 
         /// <summary>
         /// Validates the token.

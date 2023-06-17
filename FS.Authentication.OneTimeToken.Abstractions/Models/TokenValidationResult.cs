@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
@@ -18,12 +19,12 @@ namespace FS.Authentication.OneTimeToken.Abstractions.Models
         /// <summary>
         /// Claims added to authentication result.
         /// </summary>
-        public Claim[] Claims { get; private set; }
+        public IEnumerable<Claim> Claims { get; private set; }
 
         /// <summary>
         /// Indicates an authorized access.
         /// </summary>
-        public static TokenValidationResult Success(Claim[] claims)
+        public static TokenValidationResult Success(IEnumerable<Claim> claims)
             => new TokenValidationResult()
             {
                 IsValid = true,
